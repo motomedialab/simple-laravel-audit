@@ -1,8 +1,8 @@
-# Laravel Simple Auditing
+# Simple Laravel Auditing
 
 ![GitHub Actions](https://github.com/motomedialab/simple-laravel-audit/actions/workflows/main.yml/badge.svg)
 
-A lightweight package to provide the ability to flexibly audit events and actions that happen within
+A lightweight package to provide the ability and flexibly to quickjly and easily audit events and actions that happen within
 your Laravel application.
 
 ## Installation
