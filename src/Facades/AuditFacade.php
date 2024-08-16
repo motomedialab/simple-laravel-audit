@@ -3,10 +3,11 @@
 namespace Motomedialab\SimpleLaravelAudit\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Motomedialab\SimpleLaravelAudit\Models\AuditLog;
 
 /**
- * @method static \Motomedialab\SimpleLaravelAudit\Models\AuditLog record(string $message, array $context = [])
- * @method static \Motomedialab\SimpleLaravelAudit\Models\AuditLog audit(string $message, array $context = [])
+ * @method static AuditLog record(string $message, array $context = [])
+ * @method static AuditLog audit(string $message, array $context = [])
  */
 class AuditFacade extends Facade
 {

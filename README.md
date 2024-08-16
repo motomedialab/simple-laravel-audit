@@ -102,9 +102,6 @@ class MyCustomEvent implements IsAuditableEvent
         return ['more_data' => 'Goes here'];
     }
 }
-
-// dispatch the event
-event(new AuditEvent('Action performed', ['more_data' => 'Goes here']));
 ```
 
 ### Using the `AuditableModel` trait on Models
