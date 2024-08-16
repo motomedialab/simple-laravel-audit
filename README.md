@@ -31,6 +31,18 @@ table name and more.
 php artisan vendor:publish --tag=simple-auditor
 ```
 
+### Setting the retention duration
+
+You can define how many days your logs should be kept for by setting the `SIMPLE_AUDITOR_RETENTION` in your `.env` file.
+If you want to keep all logs indefinitely, set this to `0`.
+
+```dotenv
+SIMPLE_AUDITOR_RETENTION=30 # retain for 30 days
+SIMPLE_AUDITOR_RETENTION=0 # retain indefinitely
+```
+
+Every time the audit logs are pruned, this will be recorded as an audit log itself.
+
 ## Usage
 
 There's a multiple of ways you can use this package. The most common way is to use the `audit` helper function.

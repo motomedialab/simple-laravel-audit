@@ -44,7 +44,7 @@ return [
     | You can change this value to extend the job and provide additional functionality.
     |
     */
-    'prune_job' => Motomedialab\SimpleLaravelAudit\Jobs\PruneOldAuditLogs::class,
+    'prune_job' => Motomedialab\SimpleLaravelAudit\Jobs\PruneAuditLogs::class,
 
     /*
     |--------------------------------------------------------------------------

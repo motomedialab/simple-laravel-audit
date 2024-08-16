@@ -3,7 +3,8 @@
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Motomedialab\SimpleLaravelAudit\Jobs\PruneOldAuditLogs;
+use Motomedialab\SimpleLaravelAudit\Jobs\PruneAuditLogs;
+use Motomedialab\SimpleLaravelAudit\Models\AuditLog;
 
 it('will prune old audit logs', function () {
 
@@ -17,7 +18,11 @@ it('will prune old audit logs', function () {
 
     expect(DB::table('audit_logs')->count())->toBe(2);
 
-    dispatch_sync(new PruneOldAuditLogs());
+    dispatch_sync(new PruneAuditLogs());
 
-    expect(DB::table('audit_logs')->count())->toBe(1);
+    // we'd expect one to be removed and a new one recording the prune
+    expect(DB::table('audit_logs')->count())->toBe(2)
+        ->and(AuditLog::all()->last())
+        ->message->toBe('Pruned audit logs')
+        ->context->toBe(['rows_deleted' => 1]);
 });
