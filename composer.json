@@ -1,0 +1,50 @@
+{
+    "name": "motomedialab/simple-laravel-audit",
+    "type": "library",
+    "license": "MIT",
+    "description": "A simple audit helper that integrates directly with Laravel & FilamentPHP",
+    "keywords": ["motomedialab", "chrispage1", "laravel", "audit", "filament"],
+    "authors": [
+        {
+            "name": "Chris Page",
+            "email": "chris@motocom.co.uk"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^2.0",
+        "laravel/pint": "^1.17",
+        "orchestra/testbench": "^9.3",
+        "pestphp/pest": "^2.35"
+    },
+    "autoload": {
+        "psr-4": {
+            "Motomedialab\\SimpleLaravelAudit\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Motomedialab\\SimpleLaravelAudit\\": "src/",
+            "Motomedialab\\SimpleLaravelAudit\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Motomedialab\\SimpleLaravelAudit\\Providers\\SimpleAuditServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
