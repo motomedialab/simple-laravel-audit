@@ -18,7 +18,7 @@ class AuditLog extends Model
     protected function casts(): array
     {
         return [
-            'context' => ['array'],
+            'context' => 'array',
         ];
     }
 }
