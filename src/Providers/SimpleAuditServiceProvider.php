@@ -11,7 +11,7 @@ use Motomedialab\SimpleLaravelAudit\Auditors\SimpleAuditor;
 use Motomedialab\SimpleLaravelAudit\Contracts\AuditorContract;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesUserId;
-use Motomedialab\SimpleLaravelAudit\Events\AuditableEvent;
+use Motomedialab\SimpleLaravelAudit\Contracts\IsAuditableEvent;
 use Motomedialab\SimpleLaravelAudit\Listeners\AuditableEventListener;
 
 class SimpleAuditServiceProvider extends ServiceProvider
@@ -48,7 +48,7 @@ class SimpleAuditServiceProvider extends ServiceProvider
         $this->app->bind(FetchesUserId::class, config('simple-auditor.fetch_user_id', FetchUserId::class));
 
         // bind our event listener
-        Event::listen(AuditableEvent::class, AuditableEventListener::class);
+        Event::listen(IsAuditableEvent::class, AuditableEventListener::class);
     }
 
 }

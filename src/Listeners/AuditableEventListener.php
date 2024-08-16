@@ -2,14 +2,13 @@
 
 namespace Motomedialab\SimpleLaravelAudit\Listeners;
 
-use Motomedialab\SimpleLaravelAudit\Events\AuditableEvent;
-use Motomedialab\SimpleLaravelAudit\Facades\SimpleAudit;
+use Motomedialab\SimpleLaravelAudit\Contracts\IsAuditableEvent;
+use Motomedialab\SimpleLaravelAudit\Facades\AuditFacade;
 
 class AuditableEventListener
 {
-    public function handle(AuditableEvent $event): void
+    public function handle(IsAuditableEvent $event): void
     {
-        SimpleAudit::record($event->message, $event->context);
+        AuditFacade::audit($event->getAuditMessage(), $event->getAuditContext());
     }
-
 }

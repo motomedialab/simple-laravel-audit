@@ -3,9 +3,7 @@
 use Motomedialab\SimpleLaravelAudit\Contracts\AuditorContract;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesUserId;
-use Motomedialab\SimpleLaravelAudit\Events\AuditableEvent;
-use Motomedialab\SimpleLaravelAudit\Facades\SimpleAudit;
-use Motomedialab\SimpleLaravelAudit\Models\AuditLog;
+use Motomedialab\SimpleLaravelAudit\Facades\AuditFacade;
 
 it('can load an auditor instance', function () {
     expect(app('simple-auditor'))
@@ -22,7 +20,7 @@ it('can create an audit log via the facade', function () {
     $this->mock(FetchesUserId::class)
         ->shouldReceive('__invoke')->once()->andReturn(12);
 
-    $log = SimpleAudit::record('This is a test audit log', ['foo' => 'bar']);
+    $log = AuditFacade::record('This is a test audit log', ['foo' => 'bar']);
 
     expect($log)->toBeInstanceOf(config('simple-auditor.model'))
         ->message->toBe('This is a test audit log')
@@ -42,12 +40,4 @@ it('can create an audit log via the helper', function () {
         ->context->toBe(['blah' => 'bloo'])
         ->ip_address->toBeNull()
         ->user_id->toBeNull();
-});
-
-it('can create an audit log via the event', function () {
-    event(new AuditableEvent('Testing', ['blah' => 'bloo']));
-
-    expect(AuditLog::first())->toBeInstanceOf(config('simple-auditor.model'))
-        ->message->toBe('Testing')
-        ->context->toBe(['blah' => 'bloo']);
 });

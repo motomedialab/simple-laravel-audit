@@ -51,24 +51,48 @@ Some people love using Laravel's Facades due to their ease of use and static nat
 
 ```php
 // import the facade
-use Motomedialab\SimpleLaravelAudit\Facades\SimpleAudit;
+use Motomedialab\SimpleLaravelAudit\Facades\AuditFacade;
 
 // create our audit log
-SimpleAudit::audit('Action performed', ['more_data' => 'Goes here']);
+AuditFacade::audit('Action performed', ['more_data' => 'Goes here']);
 ```
 
-### Emitting an event
+### Binding to events
 
-Out of the box, we provide an event that can be emitted to log an audit. This is an alternative usage and
-may be more suitable for your application. Again, this event takes a string as the first argument, and an optional
-array (context) as the second argument.
+If you want to audit an event that happens within your application, you can do so by using the `IsAuditableEvent`
+interface. Coupled with `AuditableEvent`, this will automatically log the event to the audit log.
+
+Here's an example of an event that utilises the `IsAuditableEvent` interface:
 
 ```php
-// import our AuditableEvent
-use Motomedialab\SimpleLaravelAudit\Events\AuditableEvent;
+// import our contract & trait
+use Motomedialab\SimpleLaravelAudit\Contracts\IsAuditableEvent;
+use Motomedialab\SimpleLaravelAudit\Traits\AuditableEvent;
+
+class MyCustomEvent implements IsAuditableEvent
+{
+    use AuditableEvent;
+
+    public function handle()
+    {
+        // ToDo: your event logic.
+    }
+    
+    // optional - by default will be handled by the AuditableEvent trait
+    public function getAuditMessage(): string
+    {
+        return 'Action performed';
+    }
+    
+    // optional - by default will be handled by the AuditableEvent trait
+    public function getAuditContext(): array
+    {
+        return ['more_data' => 'Goes here'];
+    }
+}
 
 // dispatch the event
-event(new AuditableEvent('Action performed', ['more_data' => 'Goes here']));
+event(new AuditEvent('Action performed', ['more_data' => 'Goes here']));
 ```
 
 ### Using the `AuditableModel` trait on Models

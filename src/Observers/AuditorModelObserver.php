@@ -3,7 +3,7 @@
 namespace Motomedialab\SimpleLaravelAudit\Observers;
 
 use Illuminate\Database\Eloquent\Model;
-use Motomedialab\SimpleLaravelAudit\Facades\SimpleAudit;
+use Motomedialab\SimpleLaravelAudit\Facades\AuditFacade;
 
 class AuditorModelObserver
 {
@@ -35,7 +35,7 @@ class AuditorModelObserver
 
     protected function auditMessage(string $action, Model $model, array $context = []): void
     {
-        SimpleAudit::record(class_basename($model) . ' ' . $action, [
+        AuditFacade::record(class_basename($model) . ' ' . $action, [
             ...$context,
             'class' => get_class($model),
             'id' => $model->getKey(),
