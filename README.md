@@ -2,7 +2,7 @@
 
 ![GitHub Actions](https://github.com/motomedialab/simple-laravel-audit/actions/workflows/main.yml/badge.svg)
 
-A lightweight package to provide the ability and flexibly to quickjly and easily audit events and actions that happen within
+A lightweight package to provide the ability and flexibility to quickly and easily audit events and actions that happen within
 your Laravel application.
 
 ## Installation
@@ -45,7 +45,7 @@ Every time the audit logs are pruned, this will be recorded as an audit log itse
 
 ## Usage
 
-There's a multiple of ways you can use this package. The most common way is to use the `audit` helper function.
+There are multiple ways you can use this package. The most common way is to use the `audit` helper function.
 
 ### Using the global audit helper
 
@@ -141,7 +141,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email chris@motocom.co.uk instead of using the issue tracker.
+If you discover any security-related issues, please email chris@motocom.co.uk instead of using the issue tracker.
 
 ## License
 
