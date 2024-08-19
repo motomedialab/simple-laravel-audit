@@ -11,12 +11,12 @@
         }
     ],
     "require": {
-        "laravel/framework": "^10.0|^11.0"
+        "laravel/framework": "^9.0|^10.0|^11.0"
     },
     "require-dev": {
         "larastan/larastan": "^2.0",
         "laravel/pint": "^1.17",
-        "orchestra/testbench": "^8.0|^9.0",
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
         "pestphp/pest": "^2.0"
     },
     "autoload": {
