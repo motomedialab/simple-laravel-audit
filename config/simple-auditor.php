@@ -33,7 +33,7 @@ return [
     | You can override this to watch for additional events on the model.
     |
     */
-    'observer' => Motomedialab\SimpleLaravelAudit\Observers\AuditorModelObserver::class,
+    'observer' => Motomedialab\SimpleLaravelAudit\Observers\AuditableModelObserver::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -60,15 +60,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Obfuscate IP addresses
+    |--------------------------------------------------------------------------
+    |
+    | Specify whether the first two octets of an IP address should be
+    | obfuscated in the audit logs. This is useful for addressing compliance
+    | and privacy concerns.
+    |
+    */
+    'obfuscate_ip_addresses' => (bool)env('SIMPLE_AUDITOR_OBFUSCATE_IP', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | IP Address Fetcher
     |--------------------------------------------------------------------------
     |
-    | The IP address fetcher determines the IP address to record to the database.
-    | You can change this value to use a custom IP address fetcher. It must implement
-    | the Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress interface.
+    | Specify an IP fetcher here to override the default fetcher method.
+    | Your fetcher must implement the Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress
+    | interface and will override the default behaviour, including IP address obfuscation.
     |
     */
-    'ip_address_fetcher' => Motomedialab\SimpleLaravelAudit\Actions\FetchIpAddress::class,
+    'ip_address_fetcher' => null,
 
     /*
     |--------------------------------------------------------------------------

@@ -31,6 +31,12 @@ table name and more.
 php artisan vendor:publish --tag=simple-auditor
 ```
 
+### Obfuscating the IP address for compliance
+
+You can easily obfuscate IP addresses that are submitted to the database by setting the `SIMPLE_AUDITOR_OBFUSCATE_IP`
+variable in your `.env` file to true. This will strip the first two octets of an IP address, ensuring it meets various
+compliance laws, such as GDPR. Behind the scenes this switches the default IP address fetcher with an Obfuscated IP fetcher.
+
 ### Setting the retention duration
 
 You can define how many days your logs should be kept for by setting the `SIMPLE_AUDITOR_RETENTION` in your `.env` file.
@@ -126,7 +132,7 @@ If you'd like to expand the functionality of the `AuditableModel` trait, you can
 by configuring the `observer` key in the config file. This will allow you to create your own model observer.
 
 ```php
-use Motomedialab\SimpleLaravelAudit\Observers\AuditorModelObserver as BaseObserver;
+use Motomedialab\SimpleLaravelAudit\Observers\AuditableModelObserver as BaseObserver;
 
 class AuditableObserver extends BaseObserver
 {

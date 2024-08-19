@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Motomedialab\SimpleLaravelAudit\Contracts\AuditorContract;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesUserId;
@@ -27,6 +29,16 @@ it('can create an audit log via the facade', function () {
         ->context->toBe(['foo' => 'bar'])
         ->ip_address->toBe('testIpAddress')
         ->user_id->toBe(12);
+});
+
+it('can obfuscate an ip address in an audit log', function () {
+    Config::set('simple-auditor.obfuscate_ip_addresses', true);
+
+    $this->app->bind('request', fn() => new Request(server: ['REMOTE_ADDR' => '81.123.45.123']));
+
+    $log = AuditFacade::record('This is a test audit log', ['foo' => 'bar']);
+
+    expect($log)->ip_address->toBe('xx.xxx.45.123');
 });
 
 it('can create an audit log via the helper', function () {

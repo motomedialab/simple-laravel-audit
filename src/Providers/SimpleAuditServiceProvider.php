@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Motomedialab\SimpleLaravelAudit\Actions\FetchIpAddress;
+use Motomedialab\SimpleLaravelAudit\Actions\FetchObfuscatedIpAddress;
 use Motomedialab\SimpleLaravelAudit\Actions\FetchUserId;
 use Motomedialab\SimpleLaravelAudit\Auditors\SimpleAuditor;
 use Motomedialab\SimpleLaravelAudit\Contracts\AuditorContract;
@@ -44,11 +45,26 @@ class SimpleAuditServiceProvider extends ServiceProvider
         $this->app->alias(AuditorContract::class, 'simple-auditor');
 
         // register our actions - we'll do this for extensibility.
-        $this->app->bind(FetchesIpAddress::class, config('simple-auditor.fetch_ip_address', FetchIpAddress::class));
+        $this->app->bind(FetchesIpAddress::class, fn() => $this->registerIpFetcher());
         $this->app->bind(FetchesUserId::class, config('simple-auditor.fetch_user_id', FetchUserId::class));
 
         // bind our event listener
         Event::listen(IsAuditableEvent::class, AuditableEventListener::class);
+    }
+
+    private function registerIpFetcher(): FetchesIpAddress
+    {
+        if ($fetcher = config('simple-auditor.fetch_ip_address')) {
+            return new $fetcher;
+        }
+
+        $obfuscate = config('simple-auditor.obfuscate_ip_addresses');
+
+        if ($obfuscate) {
+            return new FetchObfuscatedIpAddress();
+        }
+
+        return new FetchIpAddress();
     }
 
 }
