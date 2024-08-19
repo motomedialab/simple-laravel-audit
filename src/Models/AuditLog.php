@@ -10,7 +10,9 @@ class AuditLog extends Model
 
     protected $guarded = [];
 
-    protected $casts = ['context'];
+    protected $casts = [
+        'context' => 'array'
+    ];
 
     public function getTable()
     {
