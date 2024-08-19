@@ -10,15 +10,12 @@ class AuditLog extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'context' => 'array'
+    ];
+
     public function getTable()
     {
         return config('simple-auditor.table_name', 'audit_logs');
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'context' => 'array',
-        ];
     }
 }

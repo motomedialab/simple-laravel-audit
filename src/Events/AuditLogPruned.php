@@ -5,7 +5,7 @@ namespace Motomedialab\SimpleLaravelAudit\Events;
 use Motomedialab\SimpleLaravelAudit\Contracts\IsAuditableEvent;
 use Motomedialab\SimpleLaravelAudit\Traits\AuditableEvent;
 
-readonly class AuditLogPruned implements IsAuditableEvent
+class AuditLogPruned implements IsAuditableEvent
 {
     use AuditableEvent;
 
