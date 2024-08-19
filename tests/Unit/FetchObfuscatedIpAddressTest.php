@@ -10,7 +10,7 @@ it('can obfuscate an ipv4 address', function () {
 
     // spoof an IPv4 address
 
-    app()->bind('request', fn() => new Request(server: ['REMOTE_ADDR' => '81.146.11.42']));
+    app()->bind('request', fn () => new Request(server: ['REMOTE_ADDR' => '81.146.11.42']));
 
     $method = new FetchObfuscatedIpAddress();
 
@@ -20,7 +20,7 @@ it('can obfuscate an ipv4 address', function () {
 it('can obfuscate an ipv6 address', function () {
 
     // spoof an IPv6 address
-    app()->bind('request', fn() => new Request(server: ['REMOTE_ADDR' => '2001:db8:85a3::8a2e:370:7334']));
+    app()->bind('request', fn () => new Request(server: ['REMOTE_ADDR' => '2001:db8:85a3::8a2e:370:7334']));
 
     $method = new FetchObfuscatedIpAddress();
 
@@ -28,7 +28,7 @@ it('can obfuscate an ipv6 address', function () {
 });
 
 it('can handle a null value as a possible response', function () {
-    app()->bind('request', fn() => new Request(server: ['REMOTE_ADDR' => null]));
+    app()->bind('request', fn () => new Request(server: ['REMOTE_ADDR' => null]));
 
     $method = new FetchObfuscatedIpAddress();
 

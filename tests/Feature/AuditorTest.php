@@ -34,7 +34,7 @@ it('can create an audit log via the facade', function () {
 it('can obfuscate an ip address in an audit log', function () {
     Config::set('simple-auditor.obfuscate_ip_addresses', true);
 
-    $this->app->bind('request', fn() => new Request(server: ['REMOTE_ADDR' => '81.123.45.123']));
+    $this->app->bind('request', fn () => new Request(server: ['REMOTE_ADDR' => '81.123.45.123']));
 
     $log = AuditFacade::record('This is a test audit log', ['foo' => 'bar']);
 

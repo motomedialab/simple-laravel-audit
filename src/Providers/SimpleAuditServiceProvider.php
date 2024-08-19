@@ -45,7 +45,7 @@ class SimpleAuditServiceProvider extends ServiceProvider
         $this->app->alias(AuditorContract::class, 'simple-auditor');
 
         // register our actions - we'll do this for extensibility.
-        $this->app->bind(FetchesIpAddress::class, fn() => $this->registerIpFetcher());
+        $this->app->bind(FetchesIpAddress::class, fn () => $this->registerIpFetcher());
         $this->app->bind(FetchesUserId::class, config('simple-auditor.fetch_user_id', FetchUserId::class));
 
         // bind our event listener
@@ -55,7 +55,7 @@ class SimpleAuditServiceProvider extends ServiceProvider
     private function registerIpFetcher(): FetchesIpAddress
     {
         if ($fetcher = config('simple-auditor.fetch_ip_address')) {
-            return new $fetcher;
+            return new $fetcher();
         }
 
         $obfuscate = config('simple-auditor.obfuscate_ip_addresses');
