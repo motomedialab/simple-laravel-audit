@@ -5,7 +5,7 @@ namespace Motomedialab\SimpleLaravelAudit\Observers;
 use Illuminate\Database\Eloquent\Model;
 use Motomedialab\SimpleLaravelAudit\Facades\AuditFacade;
 
-class AuditorModelObserver
+class AuditableModelObserver
 {
     public function created(Model $model): void
     {
