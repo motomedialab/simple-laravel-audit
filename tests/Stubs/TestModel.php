@@ -12,6 +12,7 @@ class TestModel extends Model
     protected $guarded = [];
 
     protected array $excludedFromAuditing = [
-        'email_address'
+        'email_address',
+        'phone_number',
     ];
 }

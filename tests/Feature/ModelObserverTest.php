@@ -96,11 +96,37 @@ it('does not create audit log when only excluded columns are updated', function 
     $model = Model::withoutEvents(fn () => TestModel::create([
         'name' => 'Test Model',
         'email_address' => 'test@example.com',
+        'phone_number' => '1234567890'
     ]));
 
     $model->update([
         'email_address' => 'updated@example.com',
+        'phone_number' => '0987654321'
     ]);
 
     expect(AuditLog::count())->toBe(0);
+});
+
+it('excludes multiple defined columns from auditing on update', function () {
+    $model = Model::withoutEvents(fn () => TestModel::create([
+        'name' => 'Test Model',
+        'email_address' => 'test@example.com',
+        'phone_number' => '1234567890'
+    ]));
+
+    $model->update([
+        'name' => 'Updated Model',
+        'email_address' => 'updated@example.com',
+        'phone_number' => '0987654321'
+    ]);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->message->toBe('TestModel Updated')
+        ->context->old->toHaveKey('name')
+        ->context->old->not->toHaveKey('email_address')
+        ->context->old->not->toHaveKey('phone_number')
+        ->context->new->toHaveKey('name')
+        ->context->new->not->toHaveKey('email_address')
+        ->context->new->not->toHaveKey('phone_number');
 });
