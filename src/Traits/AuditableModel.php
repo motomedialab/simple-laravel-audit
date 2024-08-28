@@ -15,4 +15,9 @@ trait AuditableModel
 
         static::observe(config('simple-auditor.observer', AuditableModelObserver::class));
     }
+
+    public function getExcludedFromAuditing(): array
+    {
+        return $this->excludedFromAuditing ?? [];
+    }
 }

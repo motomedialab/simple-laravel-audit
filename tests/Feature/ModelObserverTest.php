@@ -58,3 +58,49 @@ it('can observe a model for forced deletion', function () {
         ->toBeInstanceOf(AuditLog::class)
         ->message->toBe('SoftDeleteTestModel Force Deleted');
 });
+
+it('excludes defined columns from auditing on creation', function () {
+    TestModel::create([
+        'name' => 'Test Model',
+        'email_address' => 'test@example.com'
+    ]);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->message->toBe('TestModel Created')
+        ->context->toHaveKey('name')
+        ->context->not->toHaveKey('email_address');
+});
+
+it('excludes defined columns from auditing on update', function () {
+    $model = Model::withoutEvents(fn () => TestModel::create([
+        'name' => 'Test Model',
+        'email_address' => 'test@example.com'
+    ]));
+
+    $model->update([
+        'name' => 'Updated Model',
+        'email_address' => 'updated@example.com'
+    ]);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->message->toBe('TestModel Updated')
+        ->context->old->toHaveKey('name')
+        ->context->old->not->toHaveKey('email_address')
+        ->context->new->toHaveKey('name')
+        ->context->new->not->toHaveKey('email_address');
+});
+
+it('does not create audit log when only excluded columns are updated', function () {
+    $model = Model::withoutEvents(fn () => TestModel::create([
+        'name' => 'Test Model',
+        'email_address' => 'test@example.com',
+    ]));
+
+    $model->update([
+        'email_address' => 'updated@example.com',
+    ]);
+
+    expect(AuditLog::count())->toBe(0);
+});

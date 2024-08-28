@@ -14,6 +14,7 @@ return new class () extends Migration {
             $table->id();
 
             $table->string('name');
+            $table->string('email_address')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

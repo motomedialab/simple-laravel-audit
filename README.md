@@ -123,6 +123,13 @@ use Illuminate\Database\Eloquent\Model;
 class YourModel extends Model
 {
     use AuditableModel;
+    
+    /* An array of columns that shouldn't be audited. */
+     protected array $excludedFromAuditing = [
+     'created_at',
+     'updated_at',
+     // 
+    ];
 }
 ```
 
