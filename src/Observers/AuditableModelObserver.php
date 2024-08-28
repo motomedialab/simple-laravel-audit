@@ -56,7 +56,11 @@ class AuditableModelObserver
         }
 
         $excludedColumns = $model->getExcludedFromAuditing();
+
+        if ($excludedColumns === []) {
+            return $attributes;
+        }
+
         return array_diff_key($attributes, array_flip($excludedColumns));
     }
-
 }
