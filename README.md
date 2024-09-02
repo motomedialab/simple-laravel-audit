@@ -114,21 +114,24 @@ class MyCustomEvent implements IsAuditableEvent
 
 If you have a model that you'd like to be audited on change, you can use the `AuditableModel` trait.
 By default, this will record all creations, updates and deletions for this model to the audit log.
-This uses Laravel model observers to listen for changes.
+This uses Laravel model observers to listen for changes. By default, the `created_at` and `updated_at` columns
+are excluded from auditing.
 
 ```php
-use Motomedialab\SimpleLaravelAudit\Traits\AuditableModel;
 use Illuminate\Database\Eloquent\Model;
+use Motomedialab\SimpleLaravelAudit\Traits\AuditableModel;
 
 class YourModel extends Model
 {
     use AuditableModel;
     
-    /* An array of columns that shouldn't be audited. */
-     protected array $excludedFromAuditing = [
-     'created_at',
-     'updated_at',
-     // 
+    /**
+    * An array of columns that shouldn't be audited.
+    * @var array|string[] 
+    */
+    protected array $excludedFromAuditing = [
+        'created_at',
+        'updated_at',
     ];
 }
 ```
