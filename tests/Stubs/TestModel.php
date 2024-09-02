@@ -10,4 +10,9 @@ class TestModel extends Model
     use AuditableModel;
 
     protected $guarded = [];
+
+    protected array $excludedFromAuditing = [
+        'email_address',
+        'phone_number',
+    ];
 }

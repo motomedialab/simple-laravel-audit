@@ -9,15 +9,22 @@ class AuditableModelObserver
 {
     public function created(Model $model): void
     {
-        $this->auditMessage('Created', $model, $model->getAttributes());
+        $attributes = $this->filterExcludedColumns($model, $model->getAttributes());
+        $this->auditMessage('Created', $model, $attributes);
     }
 
     public function updated(Model $model): void
     {
-        $new = $model->getChanges();
-        $old = array_filter($model->getOriginal(), fn ($key) => array_key_exists($key, $new), ARRAY_FILTER_USE_KEY);
+        $new = $this->filterExcludedColumns($model, $model->getChanges());
+        $old = array_filter(
+            $this->filterExcludedColumns($model, $model->getOriginal()),
+            fn ($key) => array_key_exists($key, $new),
+            ARRAY_FILTER_USE_KEY
+        );
 
-        $this->auditMessage('Updated', $model, compact('old', 'new'));
+        if (!empty($new)) {
+            $this->auditMessage('Updated', $model, compact('old', 'new'));
+        }
     }
 
     public function deleted(Model $model): void
@@ -42,4 +49,18 @@ class AuditableModelObserver
         ]);
     }
 
+    protected function filterExcludedColumns(Model $model, array $attributes): array
+    {
+        if (!method_exists($model, 'getExcludedFromAuditing')) {
+            return $attributes;
+        }
+
+        $excludedColumns = $model->getExcludedFromAuditing();
+
+        if ($excludedColumns === []) {
+            return $attributes;
+        }
+
+        return array_diff_key($attributes, array_flip($excludedColumns));
+    }
 }
