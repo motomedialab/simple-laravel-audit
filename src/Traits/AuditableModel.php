@@ -18,6 +18,9 @@ trait AuditableModel
 
     public function getExcludedFromAuditing(): array
     {
-        return $this->excludedFromAuditing ?? [];
+        return $this->excludedFromAuditing ?? [
+            'created_at',
+            'updated_at',
+        ];
     }
 }
