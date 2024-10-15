@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
 
             $table->string('message');
-            $table->json('context')->default('[]');
+            $table->longText('context');
 
             $table->unsignedBigInteger('user_id')->nullable()->default(null);
             $table->string('ip_address', 45)->nullable()->default(null);
