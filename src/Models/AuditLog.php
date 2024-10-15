@@ -10,6 +10,9 @@ class AuditLog extends Model
 
     protected $guarded = [];
 
+    protected $attributes = [
+        'context' => '[]'
+    ];
     protected $casts = [
         'context' => 'array'
     ];
