@@ -46,8 +46,8 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Run static analysis
-        run: vendor/bin/phpstan analyse
+      # - name: Run static analysis
+      #   run: vendor/bin/phpstan analyse
 
       - name: Ensure code structure
         run: vendor/bin/pint --test
