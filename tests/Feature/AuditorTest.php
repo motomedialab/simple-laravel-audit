@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Config;
 use Motomedialab\SimpleLaravelAudit\Contracts\AuditorContract;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesUserId;
+use Motomedialab\SimpleLaravelAudit\Data\GuardData;
 use Motomedialab\SimpleLaravelAudit\Facades\AuditFacade;
 
 it('can load an auditor instance', function () {
@@ -20,7 +21,7 @@ it('can create an audit log via the facade', function () {
         ->shouldReceive('__invoke')->once()->andReturn('testIpAddress');
 
     $this->mock(FetchesUserId::class)
-        ->shouldReceive('__invoke')->once()->andReturn(12);
+        ->shouldReceive('__invoke')->once()->andReturn(new GuardData('test', 12));
 
     $log = AuditFacade::record('This is a test audit log', ['foo' => 'bar']);
 
@@ -28,6 +29,7 @@ it('can create an audit log via the facade', function () {
         ->message->toBe('This is a test audit log')
         ->context->toBe(['foo' => 'bar'])
         ->ip_address->toBe('testIpAddress')
+        ->guard->toBe('test')
         ->user_id->toBe(12);
 });
 
