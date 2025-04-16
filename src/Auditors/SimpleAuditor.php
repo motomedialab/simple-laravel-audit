@@ -7,19 +7,23 @@ use Illuminate\Support\Facades\App;
 use Motomedialab\SimpleLaravelAudit\Contracts\AuditorContract;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesUserId;
+use Motomedialab\SimpleLaravelAudit\Data\GuardData;
 
 class SimpleAuditor implements AuditorContract
 {
     public function record(string $message, array $context = []): Model
     {
         $ipAddress = App::call(FetchesIpAddress::class);
-        $userId = App::call(FetchesUserId::class);
+
+        /** @var ?GuardData $guard */
+        $guard = App::call(FetchesUserId::class);
 
         return config('simple-auditor.model')::create([
             'message' => $message,
             'context' => $context,
             'ip_address' => $ipAddress,
-            'user_id' => $userId,
+            'guard' => $guard?->guard(),
+            'user_id' => $guard?->authId(),
         ]);
     }
 
