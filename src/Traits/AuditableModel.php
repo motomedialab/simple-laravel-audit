@@ -12,7 +12,6 @@ trait AuditableModel
 {
     public static function bootAuditableModel(): void
     {
-
         static::observe(config('simple-auditor.observer', AuditableModelObserver::class));
     }
 

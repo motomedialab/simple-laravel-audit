@@ -7,7 +7,6 @@ use Motomedialab\SimpleLaravelAudit\Jobs\PruneAuditLogs;
 use Motomedialab\SimpleLaravelAudit\Models\AuditLog;
 
 it('will prune old audit logs', function () {
-
     Config::set('simple-auditor.retain_logs_for_days', 60);
 
     Carbon::setTestNow(now()->subDays(100));

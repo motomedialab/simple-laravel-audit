@@ -66,5 +66,4 @@ class SimpleAuditServiceProvider extends ServiceProvider
 
         return new FetchIpAddress();
     }
-
 }

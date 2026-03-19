@@ -16,7 +16,6 @@ it('can load an auditor instance', function () {
 });
 
 it('can create an audit log via the facade', function () {
-
     $this->mock(FetchesIpAddress::class)
         ->shouldReceive('__invoke')->once()->andReturn('testIpAddress');
 
