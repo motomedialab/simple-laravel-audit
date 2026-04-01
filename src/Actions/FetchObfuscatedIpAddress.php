@@ -11,7 +11,7 @@ class FetchObfuscatedIpAddress implements FetchesIpAddress
         $ip = request()->ip();
         $dotCount = 0;
 
-        for ($i = 0; $i < strlen($ip); $i++) {
+        for ($i = 0; $i < strlen((string) $ip); $i++) {
             if ($ip[$i] === '.' || $ip[$i] === ':') {
                 $dotCount++;
                 continue;

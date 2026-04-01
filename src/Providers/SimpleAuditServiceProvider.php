@@ -47,7 +47,7 @@ class SimpleAuditServiceProvider extends ServiceProvider
         $this->app->alias(AuditorContract::class, 'simple-auditor');
 
         // register our observer bindings.
-        $this->app->bind(AuditableObserverContract::class, fn() => new AuditableModelObserver());
+        $this->app->bind(AuditableObserverContract::class, fn () => new AuditableModelObserver());
 
         // register our actions - we'll do this for extensibility.
         $this->app->bind(FetchesIpAddress::class, fn () => $this->registerIpFetcher());

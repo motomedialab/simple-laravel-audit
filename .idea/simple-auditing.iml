@@ -143,6 +143,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpmyadmin/sql-parser" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/pestphp/pest-plugin-mutate" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/staabm/side-effects-detector" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/driftingly/rector-laravel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/pestphp/pest-plugin-profanity" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php84" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php85" />
