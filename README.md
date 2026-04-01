@@ -1,6 +1,9 @@
 # Simple Laravel Auditing
 
-![GitHub Actions](https://github.com/motomedialab/simple-laravel-audit/actions/workflows/main.yml/badge.svg)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/motomedialab/simple-laravel-audit.svg?style=flat-square)](https://packagist.org/packages/motomedialab/simple-laravel-audit)
+[![Total Downloads](https://img.shields.io/packagist/dt/motomedialab/simple-laravel-audit.svg?style=flat-square)](https://packagist.org/packages/motomedialab/simple-laravel-audit)
+[![Tests](https://github.com/motomedialab/simple-laravel-audit/actions/workflows/main.yml/badge.svg)](https://github.com/motomedialab/simple-laravel-audit/actions/workflows/main.yml)
 
 A lightweight package to provide the ability and flexibility to quickly and easily audit events and actions that happen within
 your Laravel application.
