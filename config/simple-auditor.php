@@ -93,4 +93,17 @@ return [
     |
     */
     'user_id_fetcher' => Motomedialab\SimpleLaravelAudit\Actions\FetchUserId::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Context Sort Order
+    |--------------------------------------------------------------------------
+    |
+    | Optionally define the sort order of the context data inside the table.
+    | - null: Default order based off the lifecycle hook, for example when Updating it would be ['old', 'new', 'class', 'id']
+    | - 'desc' or 'reverse': Fully reverse the default order
+    | - ['key1', 'key2', 'key3', 'key4']: Define a specific order by key, such as ['id', 'class', 'old', 'new']
+    |
+    */
+    'context_sort_order' => null,
 ];

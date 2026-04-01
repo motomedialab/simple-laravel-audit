@@ -25,7 +25,7 @@ Out of the box there isn't any requirement to configure the package. It will wor
 
 However, if you'd like to customise any options, such as the table name or classes that are utilised, you can publish the config file
 and change any of the options. It's designed to be flexible allowing you to change IP address resolution, user ID resolution,
-table name and more.
+context data order, table name and more.
 
 ```
 php artisan vendor:publish --tag=simple-auditor

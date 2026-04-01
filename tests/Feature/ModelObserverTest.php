@@ -130,3 +130,81 @@ it('excludes multiple defined columns from auditing on update', function () {
         ->context->new->not->toHaveKey('email_address')
         ->context->new->not->toHaveKey('phone_number');
 });
+
+it('can use a custom context order on creation', function () {
+    Config::set('simple-auditor.context_sort_order', ['id', 'class', 'old', 'new']);
+
+    $this->withoutExceptionHandling();
+
+    TestModel::create(['name' => 'Test Model']);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->context->toBe([
+            'id' => 1,
+            'class' => 'Motomedialab\SimpleLaravelAudit\Tests\Stubs\TestModel',
+            'name' => 'Test Model',
+            'updated_at' => now()->toDateTimeString(),
+            'created_at' => now()->toDateTimeString(),
+        ]);
+});
+
+it('can use a reversed context order on creation', function () {
+    Config::set('simple-auditor.context_sort_order', 'reverse');
+
+    $this->withoutExceptionHandling();
+
+    TestModel::create(['name' => 'Test Model']);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->context->toBe([
+            'class' => 'Motomedialab\SimpleLaravelAudit\Tests\Stubs\TestModel',
+            'id' => 1,
+            'created_at' => now()->toDateTimeString(),
+            'updated_at' => now()->toDateTimeString(),
+            'name' => 'Test Model',
+        ]);
+});
+
+it('can use a custom context order when updating', function () {
+    Config::set('simple-auditor.context_sort_order', ['id', 'class', 'old', 'new']);
+
+    $model = Model::withoutEvents(fn () => TestModel::create(['name' => 'Test Model']));
+
+    $model->update(['name' => 'Updated Model']);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->context->toBe([
+            'id' => 1,
+            'class' => 'Motomedialab\SimpleLaravelAudit\Tests\Stubs\TestModel',
+            'old' => [
+                'name' => 'Test Model',
+            ],
+            'new' => [
+                'name' => 'Updated Model',
+            ],
+        ]);
+});
+
+it('can use a reversed context order when updating', function () {
+    Config::set('simple-auditor.context_sort_order', 'reverse');
+
+    $model = Model::withoutEvents(fn () => TestModel::create(['name' => 'Test Model']));
+
+    $model->update(['name' => 'Updated Model']);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->context->toBe([
+            'id' => 1,
+            'class' => 'Motomedialab\SimpleLaravelAudit\Tests\Stubs\TestModel',
+            'new' => [
+                'name' => 'Updated Model',
+            ],
+            'old' => [
+                'name' => 'Test Model',
+            ],
+        ]);
+});

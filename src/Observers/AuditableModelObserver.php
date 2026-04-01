@@ -42,11 +42,31 @@ class AuditableModelObserver
 
     protected function auditMessage(string $action, Model $model, array $context = []): void
     {
-        AuditFacade::record(class_basename($model) . ' ' . $action, [
+        $contextData = [
             ...$context,
             'class' => get_class($model),
             'id' => $model->getKey(),
-        ]);
+        ];
+
+        $contextSortOrder = config('simple-auditor.context_sort_order');
+
+        $sortedContext = match (true) {
+            // fully reverse the data if specified
+            in_array($contextSortOrder, ['desc', 'reverse']) => array_reverse($contextData),
+
+            // attempt to sort using a supplied custom order
+            is_array($contextSortOrder) => collect($contextData)
+                ->sortBy(function ($item, $key) use ($contextSortOrder) {
+                    $index = array_search($key, $contextSortOrder);
+                    return $index === false ? 999 : $index;
+                })
+                ->toArray(),
+
+            // otherwise, use default
+            default => $contextData,
+        };
+
+        AuditFacade::record(class_basename($model) . ' ' . $action, $sortedContext);
     }
 
     protected function filterExcludedColumns(Model $model, array $attributes): array
