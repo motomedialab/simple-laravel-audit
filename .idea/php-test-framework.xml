@@ -20,6 +20,13 @@
           </versions>
         </cache>
       </tool>
+      <tool tool_name="Pest">
+        <cache>
+          <versions>
+            <info id="Local/vendor/pestphp/pest/bin/pest" version="3.8.1" />
+          </versions>
+        </cache>
+      </tool>
     </tools_cache>
   </component>
 </project>

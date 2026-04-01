@@ -10,21 +10,34 @@ class AuditableModelObserver
     public function created(Model $model): void
     {
         $attributes = $this->filterExcludedColumns($model, $model->getAttributes());
-        $this->auditMessage('Created', $model, $attributes);
+
+        $this->recordAudit($model, 'Created', $attributes);
     }
 
     public function updated(Model $model): void
     {
         $new = $this->filterExcludedColumns($model, $model->getChanges());
-        $old = array_filter(
-            $this->filterExcludedColumns($model, $model->getOriginal()),
-            fn ($key) => array_key_exists($key, $new),
-            ARRAY_FILTER_USE_KEY
-        );
 
-        if (!empty($new)) {
-            $this->auditMessage('Updated', $model, compact('old', 'new'));
+        if (empty($new)) {
+            return;
         }
+
+        $old = array_intersect_key($model->getRawOriginal(), $new);
+
+        $this->recordAudit($model, 'Updated', compact('old', 'new'));
+    }
+
+    protected function recordAudit(Model $model, string $action, array $context = []): void
+    {
+        $message = method_exists($model, 'getAuditMessage')
+            ? $model->getAuditMessage($action)
+            : class_basename($model) . ' ' . $action;
+
+        AuditFacade::audit($message, [
+            'id' => $model->getKey(),
+            'class' => $model::class,
+            ...$context,
+        ]);
     }
 
     public function deleted(Model $model): void
@@ -37,16 +50,7 @@ class AuditableModelObserver
             default => 'Deleted',
         };
 
-        $this->auditMessage($action, $model);
-    }
-
-    protected function auditMessage(string $action, Model $model, array $context = []): void
-    {
-        AuditFacade::record(class_basename($model) . ' ' . $action, [
-            ...$context,
-            'class' => get_class($model),
-            'id' => $model->getKey(),
-        ]);
+        $this->recordAudit($model, $action);
     }
 
     protected function filterExcludedColumns(Model $model, array $attributes): array
