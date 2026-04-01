@@ -43,9 +43,9 @@ class AuditableModelObserver
     protected function auditMessage(string $action, Model $model, array $context = []): void
     {
         AuditFacade::record(class_basename($model) . ' ' . $action, [
-            ...$context,
-            'class' => get_class($model),
             'id' => $model->getKey(),
+            'class' => get_class($model),
+            ...$context,
         ]);
     }
 

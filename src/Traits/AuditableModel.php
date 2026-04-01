@@ -3,6 +3,7 @@
 namespace Motomedialab\SimpleLaravelAudit\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Motomedialab\SimpleLaravelAudit\Contracts\AuditableObserverContract;
 use Motomedialab\SimpleLaravelAudit\Observers\AuditableModelObserver;
 
 /**
@@ -12,8 +13,12 @@ trait AuditableModel
 {
     public static function bootAuditableModel(): void
     {
+        /** @var AuditableObserverContract $observer */
+        $observer = app(AuditableObserverContract::class);
 
-        static::observe(config('simple-auditor.observer', AuditableModelObserver::class));
+        static::created([$observer, 'created']);
+        static::updated([$observer, 'updated']);
+        static::deleted([$observer, 'deleted']);
     }
 
     public function getExcludedFromAuditing(): array

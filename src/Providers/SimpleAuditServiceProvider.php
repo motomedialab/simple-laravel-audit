@@ -9,11 +9,13 @@ use Motomedialab\SimpleLaravelAudit\Actions\FetchIpAddress;
 use Motomedialab\SimpleLaravelAudit\Actions\FetchObfuscatedIpAddress;
 use Motomedialab\SimpleLaravelAudit\Actions\FetchUserId;
 use Motomedialab\SimpleLaravelAudit\Auditors\SimpleAuditor;
+use Motomedialab\SimpleLaravelAudit\Contracts\AuditableObserverContract;
 use Motomedialab\SimpleLaravelAudit\Contracts\AuditorContract;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesIpAddress;
 use Motomedialab\SimpleLaravelAudit\Contracts\FetchesUserId;
 use Motomedialab\SimpleLaravelAudit\Contracts\IsAuditableEvent;
 use Motomedialab\SimpleLaravelAudit\Listeners\AuditableEventListener;
+use Motomedialab\SimpleLaravelAudit\Observers\AuditableModelObserver;
 
 class SimpleAuditServiceProvider extends ServiceProvider
 {
@@ -43,6 +45,9 @@ class SimpleAuditServiceProvider extends ServiceProvider
         // register our auditor bindings
         $this->app->bind(AuditorContract::class, fn () => new SimpleAuditor());
         $this->app->alias(AuditorContract::class, 'simple-auditor');
+
+        // register our observer bindings.
+        $this->app->bind(AuditableObserverContract::class, fn() => new AuditableModelObserver());
 
         // register our actions - we'll do this for extensibility.
         $this->app->bind(FetchesIpAddress::class, fn () => $this->registerIpFetcher());
