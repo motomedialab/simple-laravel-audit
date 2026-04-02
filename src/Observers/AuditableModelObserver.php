@@ -52,7 +52,7 @@ class AuditableModelObserver
 
         $sortedContext = match (true) {
             // fully reverse the data if specified
-            in_array($contextSortOrder, ['desc', 'reverse']) => array_reverse($contextData),
+            is_string($contextSortOrder) && in_array($contextSortOrder, ['desc', 'reverse']) => array_reverse($contextData),
 
             // attempt to sort using a supplied custom order
             is_array($contextSortOrder) => collect($contextData)
@@ -62,7 +62,7 @@ class AuditableModelObserver
                 })
                 ->toArray(),
 
-            // otherwise, use default
+            // fallback to default
             default => $contextData,
         };
 
