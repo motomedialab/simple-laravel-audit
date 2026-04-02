@@ -318,6 +318,27 @@ it('can handle unspecified keys in the sort order when updating', function () {
         ]);
 });
 
+it('can handle extra undefined keys in the sort order when updating', function () {
+    Config::set('simple-auditor.context_sort_order', ['id', 'class', 'new', 'old', 'foo', 'bar']);
+
+    $model = Model::withoutEvents(fn () => TestModel::create(['name' => 'Test Model']));
+
+    $model->update(['name' => 'Updated Model']);
+
+    expect(AuditLog::first())
+        ->toBeInstanceOf(AuditLog::class)
+        ->context->toBe([
+            'id' => 1,
+            'class' => 'Motomedialab\SimpleLaravelAudit\Tests\Stubs\TestModel',
+            'new' => [
+                'name' => 'Updated Model',
+            ],
+            'old' => [
+                'name' => 'Test Model',
+            ],
+        ]);
+});
+
 it('can use a reversed context order when updating', function () {
     Config::set('simple-auditor.context_sort_order', 'reverse');
 

@@ -58,7 +58,7 @@ class AuditableModelObserver
             is_array($contextSortOrder) => collect($contextData)
                 ->sortBy(function ($item, $key) use ($contextSortOrder) {
                     $index = array_search($key, $contextSortOrder);
-                    return $index === false ? 999 : $index;
+                    return $index === false ? count($contextSortOrder) : $index;
                 })
                 ->toArray(),
 
